@@ -6,20 +6,20 @@ So that leaves us, parents, to figure this out ourselves. Enter my very crude at
 
 **It has only been created and tested on macOS Monterey 12.5.1.** Basically, I have just thrown it out here for grabs. I, unfortunately, do not have time to try it on other macOS platforms, make a friendly installer etc.
 
-This is how it works: The main script (here called *MinecraftTimer.sh*) will have to reside somewhere on the system where the kids usually don't look. In this example, I placed it in the */usr/local/bin/* folder. This script needs to be executable, so in macOS Terminal, you need to do this by this command:
+This is how it works: The main script (here called *minecraft_timer.sh*) will have to reside somewhere on the system where the kids usually don't look. In this example, I placed it in the */usr/local/bin/* folder. This script needs to be executable, so in macOS Terminal, you need to do this by this command:
 
 ```
-% chmod 755 /usr/local/bin/MinecraftTimer.sh
+% chmod 755 /usr/local/bin/minecraft_timer.sh
 ```
 
 You can also test the script on your version of macOS via Terminal to see if any issues pop up.
 
-A [launchd file](https://www.launchd.info) (or .plist file - a kind of Mac XML file) can be triggered whenever the current user logs in and start using the Mac. And this can in turn trigger a script like the MinecraftTimer.sh script. This .plist file is placed in the *\~/Library/LaunchAgents/* folder (the current user's LaunchAgents folder). It can be re-triggered periodically, so that is what this one does, launching, in turn, our *MinecraftTimer.sh* script every 60 seconds. Then this script saves a preference file (in the */tmp/* directory) which it uses to keep time throughout the day – even if Minecraft quits and then gets relaunched later. If this preference or log file is before midnight on the current day, it creates a fresh one, so the timer is resetting every day.
+A [launchd file](https://www.launchd.info) (or .plist file - a kind of Mac XML file) can be triggered whenever the current user logs in and start using the Mac. And this can in turn trigger a script like the minecraft_timer.sh script. This .plist file is placed in the *\~/Library/LaunchAgents/* folder (the current user's LaunchAgents folder). It can be re-triggered periodically, so that is what this one does, launching, in turn, our *minecraft_timer.sh* script every 60 seconds. Then this script saves a preference file (in the */tmp/* directory) which it uses to keep time throughout the day – even if Minecraft quits and then gets relaunched later. If this preference or log file is before midnight on the current day, it creates a fresh one, so the timer is resetting every day.
 
 A warning is triggered just before the allotted time ends, asking the gamer to please save and quit unless they have permission to continue. I have not included a "quit-and-disable-Java" command in the script. This is because I believe in communicating with my kids regarding their limits, not being forceful unless I absolutely have to. Still, you can modify this if you know how.
 
 The main Shell script should be placed in the */usr/local/bin/* folder. If you put it elsewhere, you will need to change the path to the location in the XML/launchd file. Note that you can change the allowed time by changing the *MAX_TIME=60* variable to any minutes you want. Say, for two hours, it will be *MAX_TIME=120* and so on.
 
-The launchd file should be placed in the *\~/Library/LaunchAgents/* folder. Name it something unique like *com.your_name.MinecraftTimer.plist*. If you like, you can change the *StartInterval* to something different. The 60 stands for 60 seconds, so the script above gets executed every minute.
+The launchd file should be placed in the *\~/Library/LaunchAgents/* folder. Name it something unique like *com.your_name.minecraftTimer.plist*. If you like, you can change the *StartInterval* to something different. The 60 stands for 60 seconds, so the script above gets executed every minute.
 
 Enjoy!
